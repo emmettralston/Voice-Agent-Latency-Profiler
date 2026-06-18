@@ -28,7 +28,7 @@ Then open the local URL and load a bundled sample.
 - **Pipecat adapter** — maps Pipecat trace output into the schema.
 - **Bundled samples** — realistic example calls with planted failure patterns. See [`samples/`](./samples).
 
- **PRs welcome**.
+  **PRs welcome**.
 
 ## License
 
