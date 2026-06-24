@@ -1,0 +1,8 @@
+[
+  { "file": "healthy-call.jsonl", "label": "Healthy call (well-tuned)" },
+  { "file": "context-bloat.jsonl", "label": "Context bloat (TTFT climbs)" },
+  {
+    "file": "tts-not-streaming.jsonl",
+    "label": "TTS not streaming (+ slow STT, creeping endpointing)"
+  }
+]

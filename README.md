@@ -24,9 +24,9 @@ Then open the local URL and load a bundled sample.
 
 ## Input
 
-- **JSONL schema** — the documented format. See [`schema/`](./schema). <!-- TODO: link schema doc -->
+- **JSONL schema** — the documented format. See [`schema/SCHEMA.md`](./schema/SCHEMA.md).
 - **Pipecat adapter** — maps Pipecat trace output into the schema.
-- **Bundled samples** — realistic example calls with planted failure patterns. See [`samples/`](./samples).
+- **Bundled samples** — realistic example calls with planted failure patterns. See [`public/samples/`](./public/samples).
 
   **PRs welcome**.
 
