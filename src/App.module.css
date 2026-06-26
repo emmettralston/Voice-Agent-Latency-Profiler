@@ -1,0 +1,132 @@
+.page {
+  max-width: 980px;
+  margin: 0 auto;
+  padding: 40px 24px 80px;
+}
+
+.header {
+  margin-bottom: 28px;
+}
+
+.title {
+  margin: 0;
+  font-size: 28px;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+}
+
+.subtitle {
+  margin: 6px 0 0;
+  color: var(--muted);
+}
+
+.control {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 14px;
+  color: var(--muted);
+}
+
+.control select {
+  padding: 7px 10px;
+  border: 1px solid var(--hairline);
+  border-radius: 6px;
+  background: var(--panel);
+  color: var(--text);
+  font: 14px var(--sans);
+}
+
+.error {
+  margin-top: 16px;
+  padding: 10px 12px;
+  border: 1px solid var(--redline);
+  border-radius: 6px;
+  color: var(--redline);
+  font: 13px/1.4 var(--mono);
+}
+
+.callMeta {
+  margin: 24px 0 12px;
+  color: var(--muted);
+  font: 13px var(--mono);
+}
+
+.callMeta code {
+  color: var(--text);
+}
+
+.panel {
+  padding: 20px 22px;
+  border: 1px solid var(--hairline);
+  border-radius: 10px;
+  background: var(--panel);
+}
+
+.tableWrap {
+  margin-top: 28px;
+  overflow-x: auto;
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13px;
+}
+
+.table th {
+  padding: 8px 10px;
+  border-bottom: 1px solid var(--hairline);
+  color: var(--muted);
+  font-weight: 600;
+  text-align: right;
+}
+
+.table th:first-child,
+.table th:last-child {
+  text-align: left;
+}
+
+.row,
+.rowActive {
+  cursor: pointer;
+}
+
+.row td,
+.rowActive td {
+  padding: 8px 10px;
+  border-bottom: 1px solid var(--hairline);
+}
+
+.row:hover {
+  background: rgba(255, 255, 255, 0.03);
+}
+
+.rowActive {
+  background: rgba(91, 124, 250, 0.12);
+  box-shadow: inset 2px 0 0 var(--text);
+}
+
+.row:focus-visible,
+.rowActive:focus-visible {
+  outline: 2px solid #5b7cfa;
+  outline-offset: -2px;
+}
+
+.num,
+.numOver {
+  font-family: var(--mono);
+  text-align: right;
+}
+
+.numOver {
+  color: var(--redline);
+}
+
+.utterance {
+  max-width: 280px;
+  overflow: hidden;
+  color: var(--muted);
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}

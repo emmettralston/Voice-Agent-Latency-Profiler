@@ -1,9 +1,16 @@
 :root {
-  --sans: system-ui, 'Segoe UI', Roboto, sans-serif;
-  --mono: ui-monospace, Consolas, monospace;
+  --sans: 'Space Grotesk', system-ui, 'Segoe UI', Roboto, sans-serif;
+  --mono: 'JetBrains Mono', ui-monospace, Consolas, monospace;
+
+  --ink: #0e1320;
+  --panel: #161e2e;
+  --hairline: #243049;
+  --text: #e6ecf5;
+  --muted: #8a97ad;
+  --redline: #ff4d4d;
 
   font: 16px/1.5 var(--sans);
-  color-scheme: light dark;
+  color-scheme: dark;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -15,4 +22,6 @@
 
 body {
   margin: 0;
+  background: var(--ink);
+  color: var(--text);
 }
