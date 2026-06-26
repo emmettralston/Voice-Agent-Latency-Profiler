@@ -17,15 +17,20 @@ Then open the local URL and load a bundled sample.
 
 ## What it does
 
-- **Call overview** — every turn's latency with stage breakdown, aligned so outlier turns and systematically-slow stages pop out against the call's own median.
-- **Single-turn waterfall** — click a turn to see VAD → STT → LLM TTFT → TTS against a time axis, with a configurable response budget marker.
-- **Prescriptive insights** — deterministic rules map detected patterns to concrete fixes (no LLM calls; free, instant, reproducible).
-- **Verdict** — a top-level summary naming the dominant bottleneck and which rules fired.
+<!-- sync-docs:begin feature-list -->
+
+- **Single-turn waterfall** — click a turn to see its VAD → STT → LLM TTFT → TTS stages on a time axis, with a configurable response-budget marker and over-budget stages flagged.
+- **JSONL call format + validation** — a documented schema parsed and validated in the browser with clear errors; stage-geometry oddities (gaps, overlap, over-budget) surface as warnings.
+- **Bundled samples** — realistic example calls with planted failure patterns to explore immediately.
+
+_Planned:_ a multi-turn call overview comparing each turn to the call's own median, deterministic prescriptive rules, a top-level verdict, and a Pipecat adapter.
+
+<!-- sync-docs:end feature-list -->
 
 ## Input
 
 - **JSONL schema** — the documented format. See [`schema/SCHEMA.md`](./schema/SCHEMA.md).
-- **Pipecat adapter** — maps Pipecat trace output into the schema.
+- **Pipecat adapter** _(planned)_ — will map Pipecat trace output into the schema.
 - **Bundled samples** — realistic example calls with planted failure patterns. See [`public/samples/`](./public/samples).
 
   **PRs welcome**.
