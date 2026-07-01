@@ -1,9 +1,13 @@
 import { useEffect, useState } from 'react'
 import { parseCall, type ParseResult } from './ingest/parseCall'
-import { turnLatencyMs } from './ingest/geometry'
 import { STAGES } from './types/schema'
 import { Waterfall } from './components/Waterfall/Waterfall'
-import { STAGE_LABELS } from './components/Waterfall/stageStyle'
+import { CallOverview } from './components/CallOverview/CallOverview'
+import {
+  STAGE_COLORS,
+  STAGE_LABELS,
+  STAGE_SUBLABELS,
+} from './components/Waterfall/stageStyle'
 import { referencePoints } from './reference'
 import styles from './App.module.css'
 
@@ -70,6 +74,22 @@ function App() {
         </p>
       </header>
 
+      <div className={styles.legend} aria-label="Pipeline stages">
+        <span className={styles.legendLabel}>Pipeline</span>
+        <ol className={styles.legendStages}>
+          {STAGES.map((stage) => (
+            <li key={stage} className={styles.legendItem}>
+              <span
+                className={styles.legendSwatch}
+                style={{ background: STAGE_COLORS[stage] }}
+              />
+              <span className={styles.legendName}>{STAGE_LABELS[stage]}</span>
+              <span className={styles.legendSub}>{STAGE_SUBLABELS[stage]}</span>
+            </li>
+          ))}
+        </ol>
+      </div>
+
       <label className={styles.control}>
         <span>Sample</span>
         <select value={selected} onChange={(e) => setSelected(e.target.value)}>
@@ -89,10 +109,50 @@ function App() {
 
       {call && turn && (
         <>
-          <p className={styles.callMeta}>
-            <code>{call.id}</code> · {call.model}/{call.provider} · budget{' '}
-            {call.budgetMs}ms · {call.turns.length} turns
-          </p>
+          <dl className={styles.callMeta}>
+            <div className={styles.metaItem}>
+              <dt>call</dt>
+              <dd>
+                <code>{call.id}</code>
+              </dd>
+            </div>
+            <div className={styles.metaItem}>
+              <dt>model</dt>
+              <dd>
+                {call.model} · {call.provider}
+              </dd>
+            </div>
+            <div className={styles.metaItem}>
+              <dt>response budget</dt>
+              <dd>{call.budgetMs}ms</dd>
+            </div>
+            <div className={styles.metaItem}>
+              <dt>turns</dt>
+              <dd>{call.turns.length}</dd>
+            </div>
+          </dl>
+
+          <div className={styles.sectionHead}>
+            <span className={styles.eyebrow}>Call overview</span>
+            <p className={styles.sectionHelp}>
+              Each row is one turn, sized and scored against this call&rsquo;s
+              own median latency. Click a turn to open its waterfall below.
+            </p>
+          </div>
+
+          <CallOverview
+            call={call}
+            selectedIndex={turnIndex}
+            onSelect={setTurnIndex}
+          />
+
+          <div className={styles.sectionHead}>
+            <span className={styles.eyebrow}>Turn {turnIndex} · Waterfall</span>
+            <p className={styles.sectionHelp}>
+              Each stage measured from when the user stopped speaking (t = 0) to
+              first audio out. The dashed red line is the response budget.
+            </p>
+          </div>
 
           <section className={styles.panel} aria-label="Turn waterfall">
             <Waterfall
@@ -102,55 +162,6 @@ function App() {
               replayKey={`${selected}:${turnIndex}`}
             />
           </section>
-
-          <div className={styles.tableWrap}>
-            <table className={styles.table}>
-              <thead>
-                <tr>
-                  <th>#</th>
-                  {STAGES.map((stage) => (
-                    <th key={stage}>{STAGE_LABELS[stage]}</th>
-                  ))}
-                  <th>latency</th>
-                  <th>utterance</th>
-                </tr>
-              </thead>
-              <tbody>
-                {call.turns.map((t) => {
-                  const latency = turnLatencyMs(t)
-                  const over = latency > call.budgetMs
-                  return (
-                    <tr
-                      key={t.index}
-                      className={
-                        t.index === turnIndex ? styles.rowActive : styles.row
-                      }
-                      aria-selected={t.index === turnIndex}
-                      tabIndex={0}
-                      onClick={() => setTurnIndex(t.index)}
-                      onKeyDown={(e) => {
-                        if (e.key === 'Enter' || e.key === ' ') {
-                          e.preventDefault()
-                          setTurnIndex(t.index)
-                        }
-                      }}
-                    >
-                      <td>{t.index}</td>
-                      {STAGES.map((stage) => (
-                        <td key={stage} className={styles.num}>
-                          {t.stages[stage].durationMs}
-                        </td>
-                      ))}
-                      <td className={over ? styles.numOver : styles.num}>
-                        {latency}
-                      </td>
-                      <td className={styles.utterance}>{t.userText}</td>
-                    </tr>
-                  )
-                })}
-              </tbody>
-            </table>
-          </div>
         </>
       )}
     </main>

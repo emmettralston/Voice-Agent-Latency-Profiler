@@ -120,6 +120,14 @@ export function Waterfall({
             x2={LEFT + layout.budgetX}
             y2={lanesBottom}
           />
+          <text
+            className={styles.budgetLabel}
+            x={LEFT + layout.budgetX - 5}
+            y={lanesBottom + 16}
+            textAnchor="end"
+          >
+            budget {budgetMs}ms
+          </text>
 
           <line
             className={

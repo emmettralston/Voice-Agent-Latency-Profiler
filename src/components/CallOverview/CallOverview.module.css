@@ -1,0 +1,160 @@
+.wrap {
+  margin-top: 0;
+}
+
+.summary {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 28px;
+  padding: 14px 18px;
+  border: 1px solid var(--hairline);
+  border-radius: 10px;
+  background: var(--panel);
+}
+
+.stat {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.statLabel {
+  font-size: 11px;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+.statValue {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  font: 14px var(--sans);
+  color: var(--text);
+}
+
+.swatch {
+  width: 10px;
+  height: 10px;
+  border-radius: 2px;
+}
+
+.columnHead {
+  display: grid;
+  grid-template-columns: 24px minmax(120px, 1fr) 64px 68px minmax(0, 1.4fr);
+  align-items: center;
+  gap: 12px;
+  margin-top: 20px;
+  padding: 0 10px 6px;
+  border-bottom: 1px solid var(--hairline);
+  font-size: 11px;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+.latencyHead {
+  text-align: right;
+}
+
+.ratioHead {
+  justify-self: end;
+}
+
+.rows {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.row,
+.rowActive {
+  display: grid;
+  grid-template-columns: 24px minmax(120px, 1fr) 64px 68px minmax(0, 1.4fr);
+  align-items: center;
+  gap: 12px;
+  width: 100%;
+  padding: 7px 10px;
+  border: none;
+  border-bottom: 1px solid var(--hairline);
+  border-radius: 4px;
+  background: transparent;
+  color: var(--text);
+  font: 13px var(--sans);
+  text-align: left;
+  cursor: pointer;
+}
+
+.row:hover {
+  background: rgba(255, 255, 255, 0.03);
+}
+
+.rowActive {
+  background: rgba(91, 124, 250, 0.12);
+  box-shadow: inset 2px 0 0 var(--text);
+}
+
+.row:focus-visible,
+.rowActive:focus-visible {
+  outline: 2px solid #5b7cfa;
+  outline-offset: -2px;
+}
+
+.index {
+  font-family: var(--mono);
+  color: var(--muted);
+  text-align: right;
+}
+
+.track {
+  display: block;
+  width: 100%;
+}
+
+.bar {
+  display: flex;
+  height: 12px;
+  min-width: 2px;
+  border-radius: 3px;
+  overflow: hidden;
+}
+
+.segment {
+  min-width: 1px;
+}
+
+.latency {
+  font-family: var(--mono);
+  text-align: right;
+}
+
+.badge,
+.badgeWarn,
+.badgeOutlier {
+  justify-self: end;
+  padding: 1px 6px;
+  border-radius: 10px;
+  font-family: var(--mono);
+  font-size: 12px;
+}
+
+.badge {
+  color: var(--muted);
+}
+
+.badgeWarn {
+  color: #fbbf24;
+  background: rgba(251, 191, 36, 0.12);
+}
+
+.badgeOutlier {
+  color: var(--redline);
+  background: rgba(255, 77, 77, 0.14);
+}
+
+.utterance {
+  overflow: hidden;
+  color: var(--muted);
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}

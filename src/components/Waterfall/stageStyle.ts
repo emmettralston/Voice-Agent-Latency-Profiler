@@ -13,3 +13,10 @@ export const STAGE_LABELS: Record<Stage, string> = {
   llm: 'LLM',
   tts: 'TTS',
 }
+
+export const STAGE_SUBLABELS: Record<Stage, string> = {
+  vad: 'endpointing',
+  stt: 'transcribe',
+  llm: 'first token',
+  tts: 'first audio',
+}

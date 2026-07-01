@@ -47,6 +47,13 @@
   opacity: 0.85;
 }
 
+.budgetLabel {
+  font: 600 10px/1 var(--sans);
+  letter-spacing: 0.04em;
+  fill: var(--redline);
+  opacity: 0.9;
+}
+
 .playhead {
   stroke: var(--text);
   stroke-width: 1.5;
