@@ -19,12 +19,13 @@ Then open the local URL and load a bundled sample.
 
 <!-- sync-docs:begin feature-list -->
 
+- **Findings + verdict** — deterministic rules read the call and rank what's wrong, each with a plain-language cause, a fix, and a label for what it measured against (your own median, your budget, or a stated rule of thumb — never an outside benchmark). A clean call gets an explicit all-clear.
 - **Call overview** — every turn measured against the call's own median latency, with outlier turns flagged, a per-turn stage mini-bar, and a summary that names any stage rising across the call (e.g. LLM TTFT climbing under context bloat).
-- **Single-turn waterfall** — click a turn to see its VAD → STT → LLM TTFT → TTS stages on a time axis, with a configurable response-budget marker and over-budget stages flagged.
+- **Single-turn waterfall** — click a turn to see its VAD → STT → LLM TTFT → TTS stages on a time axis, with a configurable response-budget marker and over-budget stages flagged, plus a per-turn note naming its slow stage.
 - **JSONL call format + validation** — a documented schema parsed and validated in the browser with clear errors; stage-geometry oddities (gaps, overlap, over-budget) surface as warnings.
 - **Bundled samples** — realistic example calls with planted failure patterns to explore immediately.
 
-_Planned:_ deterministic prescriptive rules, a top-level verdict, and a Pipecat adapter.
+_Planned:_ a Pipecat adapter and a citable per-stage benchmark layer.
 
 <!-- sync-docs:end feature-list -->
 

@@ -1,8 +1,12 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import { parseCall, type ParseResult } from './ingest/parseCall'
 import { STAGES } from './types/schema'
 import { Waterfall } from './components/Waterfall/Waterfall'
 import { CallOverview } from './components/CallOverview/CallOverview'
+import { VerdictCard } from './components/VerdictCard/VerdictCard'
+import { TurnDetail } from './components/TurnDetail/TurnDetail'
+import { latencyMedian, turnComparison } from './analysis/baseline'
+import { runRules } from './analysis/rules'
 import {
   STAGE_COLORS,
   STAGE_LABELS,
@@ -64,6 +68,9 @@ function App() {
 
   const call = result?.call
   const turn = call?.turns[turnIndex]
+  const findings = useMemo(() => (call ? runRules(call) : []), [call])
+  const comparisons = useMemo(() => (call ? turnComparison(call) : []), [call])
+  const medianLatency = useMemo(() => (call ? latencyMedian(call) : 0), [call])
 
   return (
     <main className={styles.page}>
@@ -133,6 +140,17 @@ function App() {
           </dl>
 
           <div className={styles.sectionHead}>
+            <span className={styles.eyebrow}>Findings</span>
+            <p className={styles.sectionHelp}>
+              Deterministic checks over this call. Each names what it measured
+              against &mdash; your own median, your budget, or a labeled rule of
+              thumb &mdash; never an outside benchmark.
+            </p>
+          </div>
+
+          <VerdictCard findings={findings} medianLatencyMs={medianLatency} />
+
+          <div className={styles.sectionHead}>
             <span className={styles.eyebrow}>Call overview</span>
             <p className={styles.sectionHelp}>
               Each row is one turn, sized and scored against this call&rsquo;s
@@ -162,6 +180,13 @@ function App() {
               replayKey={`${selected}:${turnIndex}`}
             />
           </section>
+
+          {comparisons[turnIndex] && (
+            <TurnDetail
+              comparison={comparisons[turnIndex]}
+              findings={findings}
+            />
+          )}
         </>
       )}
     </main>

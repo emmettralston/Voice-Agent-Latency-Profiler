@@ -77,14 +77,14 @@ export interface StageTrend {
 }
 
 // Median of each half (not mean) so one freak spike can't masquerade as a rising trend.
-export function trendingStage(call: Call): StageTrend | null {
-  if (call.turns.length < MIN_TURNS_FOR_TREND) return null
+export function stageTrends(call: Call): StageTrend[] {
+  if (call.turns.length < MIN_TURNS_FOR_TREND) return []
 
   const half = Math.floor(call.turns.length / 2)
   const firstTurns = call.turns.slice(0, half)
   const secondTurns = call.turns.slice(call.turns.length - half)
 
-  let strongest: StageTrend | null = null
+  const trends: StageTrend[] = []
   for (const stage of STAGES) {
     const firstHalfMs = median(
       firstTurns.map((t) => t.stages[stage].durationMs),
@@ -95,9 +95,11 @@ export function trendingStage(call: Call): StageTrend | null {
     if (firstHalfMs === 0) continue
     const growthRatio = secondHalfMs / firstHalfMs
     if (growthRatio < TREND_GROWTH_RATIO) continue
-    if (!strongest || growthRatio > strongest.growthRatio) {
-      strongest = { stage, firstHalfMs, secondHalfMs, growthRatio }
-    }
+    trends.push({ stage, firstHalfMs, secondHalfMs, growthRatio })
   }
-  return strongest
+  return trends.sort((a, b) => b.growthRatio - a.growthRatio)
+}
+
+export function trendingStage(call: Call): StageTrend | null {
+  return stageTrends(call)[0] ?? null
 }
