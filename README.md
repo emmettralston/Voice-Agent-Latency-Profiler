@@ -17,7 +17,7 @@ Open the local URL. Drop in your own JSONL call log, or try one of the bundled s
 
 ## Status
 
-Early and in progress. The core flow works. Load a call, read the verdict at the top, scan the turns, and open any turn to see its stage waterfall.
+In progress. The core flow works. Load a call, read the verdict at the top, scan the turns, and open any turn to see its stage waterfall.
 
 A fuller README with screenshots, an adapter for Pipecat logs, and reference benchmark numbers are planned.
 
