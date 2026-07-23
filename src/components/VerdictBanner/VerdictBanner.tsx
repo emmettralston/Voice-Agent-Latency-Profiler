@@ -13,6 +13,12 @@ export function VerdictBanner({ verdict }: VerdictBannerProps) {
       <div>
         <h2 className={styles.headline}>{verdict.headline}</h2>
         <p className={styles.detail}>{verdict.detail}</p>
+        {verdict.otherFindingCount > 0 && (
+          <p className={styles.more}>
+            and {verdict.otherFindingCount} more finding
+            {verdict.otherFindingCount > 1 ? 's' : ''} below
+          </p>
+        )}
       </div>
     </section>
   )

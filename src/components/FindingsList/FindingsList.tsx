@@ -17,7 +17,7 @@ interface FindingsListProps {
 }
 
 export function FindingsList({ findings, onSelectTurn }: FindingsListProps) {
-  const [openId, setOpenId] = useState(findings[0]?.ruleId ?? '')
+  const [openId, setOpenId] = useState('')
 
   if (findings.length === 0) return null
 
