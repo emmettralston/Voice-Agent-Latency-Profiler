@@ -1,7 +1,11 @@
 import { useMemo, useState } from 'react'
 import type { ParseResult } from '../../ingest/parseCall'
 import { latencyMedian } from '../../analysis/baseline'
+import { runRules } from '../../analysis/rules'
+import { verdictFor } from '../../analysis/verdict'
 import { CallOverview } from '../CallOverview/CallOverview'
+import { VerdictBanner } from '../VerdictBanner/VerdictBanner'
+import { FindingsList } from '../FindingsList/FindingsList'
 import { Waterfall } from '../Waterfall/Waterfall'
 import { referencePoints } from '../../reference'
 import styles from './Report.module.css'
@@ -15,6 +19,8 @@ export function Report({ result, onUnload }: ReportProps) {
   const { call } = result
   const [turnIndex, setTurnIndex] = useState(0)
   const median = useMemo(() => latencyMedian(call), [call])
+  const findings = useMemo(() => runRules(call), [call])
+  const verdict = useMemo(() => verdictFor(findings, median), [findings, median])
 
   return (
     <main className={styles.page}>
@@ -49,6 +55,9 @@ export function Report({ result, onUnload }: ReportProps) {
           Load another call
         </button>
       </header>
+
+      <VerdictBanner verdict={verdict} />
+      <FindingsList findings={findings} onSelectTurn={setTurnIndex} />
 
       <CallOverview
         call={call}
