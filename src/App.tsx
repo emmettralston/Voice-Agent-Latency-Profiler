@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useState } from 'react'
 import { parseCall, type ParseResult } from './ingest/parseCall'
+import { fetchSampleIndex, fetchSampleText, type SampleEntry } from './ingest/samples'
 import { STAGES } from './types/schema'
 import { Waterfall } from './components/Waterfall/Waterfall'
 import { CallOverview } from './components/CallOverview/CallOverview'
@@ -15,13 +16,6 @@ import {
 import { referencePoints } from './reference'
 import styles from './App.module.css'
 
-interface SampleEntry {
-  file: string
-  label: string
-}
-
-const base = import.meta.env.BASE_URL
-
 function App() {
   const [samples, setSamples] = useState<SampleEntry[]>([])
   const [selected, setSelected] = useState('')
@@ -31,9 +25,8 @@ function App() {
 
   useEffect(() => {
     let active = true
-    fetch(`${base}samples/index.json`)
-      .then((r) => r.json())
-      .then((entries: SampleEntry[]) => {
+    fetchSampleIndex()
+      .then((entries) => {
         if (!active) return
         setSamples(entries)
         if (entries.length > 0) setSelected(entries[0].file)
@@ -47,8 +40,7 @@ function App() {
   useEffect(() => {
     if (!selected) return
     let active = true
-    fetch(`${base}samples/${selected}`)
-      .then((r) => r.text())
+    fetchSampleText(selected)
       .then((text) => {
         if (!active) return
         try {
@@ -102,7 +94,7 @@ function App() {
         <select value={selected} onChange={(e) => setSelected(e.target.value)}>
           {samples.map((s) => (
             <option key={s.file} value={s.file}>
-              {s.label}
+              {s.name}
             </option>
           ))}
         </select>

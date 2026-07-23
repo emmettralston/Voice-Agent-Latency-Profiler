@@ -1,8 +1,17 @@
 [
-  { "file": "healthy-call.jsonl", "label": "Healthy call (well-tuned)" },
-  { "file": "context-bloat.jsonl", "label": "Context bloat (TTFT climbs)" },
+  {
+    "file": "healthy-call.jsonl",
+    "name": "A healthy call",
+    "blurb": "A well-tuned pipeline. Every turn lands inside budget."
+  },
+  {
+    "file": "context-bloat.jsonl",
+    "name": "Context bloat",
+    "blurb": "First-token latency climbs as the whole history is resent every turn."
+  },
   {
     "file": "tts-not-streaming.jsonl",
-    "label": "TTS not streaming (+ slow STT, creeping endpointing)"
+    "name": "TTS isn’t streaming",
+    "blurb": "Audio waits for whole utterances to synthesize, over slow STT and creeping endpointing."
   }
 ]
