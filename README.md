@@ -1,8 +1,10 @@
 # Voice Agent Latency Profiler
 
-> A waterfall latency profiler for voice agent calls. See **where the milliseconds go** — Voice Activity Detection (VAD) → Speech-to-Text (STT) → LLM Time to First Token (TTFT) → Text-to-Speeach (TTS) — across a whole call, find the slow turn and systematically-slow stage, and get a verdict on the likely cause and fix.
+A web tool that shows where the time goes in a voice agent call. It reads a call log and breaks each turn into its four pipeline stages: VAD, STT, LLM, and TTS. Think of the network waterfall in browser devtools, but for a voice conversation.
 
-**Status:** early development.
+## Why
+
+When a voice agent feels slow, it is hard to see which stage in which turn caused it. This tool makes that clear. It compares each turn against the call's own median, flags the slow ones, and names the likely cause and fix.
 
 ## Quick start
 
@@ -11,32 +13,14 @@ npm install
 npm run dev
 ```
 
-Then open the local URL and load a bundled sample.
+Open the local URL. Drop in your own JSONL call log, or try one of the bundled sample calls.
 
-<!-- TODO(Phase 5): screenshot / GIF of the call overview + single-turn waterfall -->
+## Status
 
-## What it does
+Early and in progress. The core flow works. Load a call, read the verdict at the top, scan the turns, and open any turn to see its stage waterfall.
 
-<!-- sync-docs:begin feature-list -->
-
-- **Findings + verdict** — deterministic rules read the call and rank what's wrong, each with a plain-language cause, a fix, and a label for what it measured against (your own median, your budget, or a stated rule of thumb — never an outside benchmark). A clean call gets an explicit all-clear.
-- **Call overview** — every turn measured against the call's own median latency, with outlier turns flagged, a per-turn stage mini-bar, and a summary that names any stage rising across the call (e.g. LLM TTFT climbing under context bloat).
-- **Single-turn waterfall** — click a turn to see its VAD → STT → LLM TTFT → TTS stages on a time axis, with a configurable response-budget marker and over-budget stages flagged, plus a per-turn note naming its slow stage.
-- **JSONL call format + validation** — a documented schema parsed and validated in the browser with clear errors; stage-geometry oddities (gaps, overlap, over-budget) surface as warnings.
-- **Bundled samples** — realistic example calls with planted failure patterns to explore immediately.
-
-_Planned:_ a Pipecat adapter and a citable per-stage benchmark layer.
-
-<!-- sync-docs:end feature-list -->
-
-## Input
-
-- **JSONL schema** — the documented format. See [`schema/SCHEMA.md`](./schema/SCHEMA.md).
-- **Pipecat adapter** _(planned)_ — will map Pipecat trace output into the schema.
-- **Bundled samples** — realistic example calls with planted failure patterns. See [`public/samples/`](./public/samples).
-
-  **PRs welcome**.
+A fuller README with screenshots, an adapter for Pipecat logs, and reference benchmark numbers are planned.
 
 ## License
 
-[MIT](./LICENSE)
+MIT
