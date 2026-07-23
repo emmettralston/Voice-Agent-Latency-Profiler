@@ -93,4 +93,17 @@ describe('parse errors', () => {
     expect(call.turns[0].sttStreaming).toBe(false)
     expect(call.turns[0].ttsStreaming).toBe(false)
   })
+
+  it('normalizes non-contiguous turn indices to array position', () => {
+    const stages = (start: number) =>
+      `{"vad":{"startMs":${start},"durationMs":100},"stt":{"startMs":${start + 100},"durationMs":100},"llm":{"startMs":${start + 200},"durationMs":100},"tts":{"startMs":${start + 300},"durationMs":100}}`
+    const jsonl = [
+      '{"type":"call","schemaVersion":1,"id":"x","model":"m","provider":"p","budgetMs":1500}',
+      `{"type":"turn","index":2,"userText":"one","stages":${stages(0)}}`,
+      `{"type":"turn","index":5,"userText":"two","stages":${stages(400)}}`,
+      `{"type":"turn","index":9,"userText":"three","stages":${stages(800)}}`,
+    ].join('\n')
+    const { call } = parseCall(jsonl)
+    expect(call.turns.map((t) => t.index)).toEqual([0, 1, 2])
+  })
 })

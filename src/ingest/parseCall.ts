@@ -55,13 +55,16 @@ export function parseCall(jsonl: string): ParseResult {
     turns.push(turn.data)
   }
 
+  // Downstream code treats turn.index as its array position; enforce that regardless of what the log declared.
+  const reindexed = turns.map((turn, i) => ({ ...turn, index: i }))
+
   const call: Call = {
     schemaVersion: header.data.schemaVersion,
     id: header.data.id,
     model: header.data.model,
     provider: header.data.provider,
     budgetMs: header.data.budgetMs,
-    turns,
+    turns: reindexed,
   }
 
   return { call, warnings: checkGeometry(call) }
