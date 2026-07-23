@@ -3,7 +3,7 @@ import type { ParseResult } from '../../ingest/parseCall'
 import { latencyMedian } from '../../analysis/baseline'
 import { runRules } from '../../analysis/rules'
 import { verdictFor } from '../../analysis/verdict'
-import { CallOverview } from '../CallOverview/CallOverview'
+import { TurnList } from '../TurnList/TurnList'
 import { VerdictBanner } from '../VerdictBanner/VerdictBanner'
 import { FindingsList } from '../FindingsList/FindingsList'
 import { Waterfall } from '../Waterfall/Waterfall'
@@ -17,7 +17,7 @@ interface ReportProps {
 
 export function Report({ result, onUnload }: ReportProps) {
   const { call } = result
-  const [turnIndex, setTurnIndex] = useState(0)
+  const [turnIndex, setTurnIndex] = useState<number | null>(null)
   const median = useMemo(() => latencyMedian(call), [call])
   const findings = useMemo(() => runRules(call), [call])
   const verdict = useMemo(() => verdictFor(findings, median), [findings, median])
@@ -59,17 +59,19 @@ export function Report({ result, onUnload }: ReportProps) {
       <VerdictBanner verdict={verdict} />
       <FindingsList findings={findings} onSelectTurn={setTurnIndex} />
 
-      <CallOverview
+      <TurnList
         call={call}
         selectedIndex={turnIndex}
         onSelect={setTurnIndex}
       />
-      <Waterfall
-        turn={call.turns[turnIndex]}
-        budgetMs={call.budgetMs}
-        references={referencePoints}
-        replayKey={`${call.id}:${turnIndex}`}
-      />
+      {turnIndex !== null && (
+        <Waterfall
+          turn={call.turns[turnIndex]}
+          budgetMs={call.budgetMs}
+          references={referencePoints}
+          replayKey={`${call.id}:${turnIndex}`}
+        />
+      )}
     </main>
   )
 }

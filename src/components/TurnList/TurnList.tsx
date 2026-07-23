@@ -1,15 +1,11 @@
 import { STAGES, type Call } from '../../types/schema'
-import {
-  latencyMedian,
-  turnComparison,
-  trendingStage,
-} from '../../analysis/baseline'
+import { turnComparison } from '../../analysis/baseline'
 import { STAGE_COLORS, STAGE_LABELS } from '../Waterfall/stageStyle'
-import styles from './CallOverview.module.css'
+import styles from './TurnList.module.css'
 
-interface CallOverviewProps {
+interface TurnListProps {
   call: Call
-  selectedIndex: number
+  selectedIndex: number | null
   onSelect: (index: number) => void
 }
 
@@ -19,47 +15,12 @@ function ratioClass(ratio: number, isOutlier: boolean): string {
   return styles.badge
 }
 
-export function CallOverview({
-  call,
-  selectedIndex,
-  onSelect,
-}: CallOverviewProps) {
+export function TurnList({ call, selectedIndex, onSelect }: TurnListProps) {
   const comparisons = turnComparison(call)
-  const medianLatency = latencyMedian(call)
-  const trend = trendingStage(call)
-  const outlierCount = comparisons.filter((c) => c.isOutlier).length
   const maxLatency = Math.max(...comparisons.map((c) => c.latencyMs), 1)
 
   return (
-    <section className={styles.wrap} aria-label="Call overview">
-      <div className={styles.summary}>
-        <span className={styles.stat}>
-          <span className={styles.statLabel}>median latency</span>
-          <span className={styles.statValue}>
-            {Math.round(medianLatency)}ms
-          </span>
-        </span>
-        {trend && (
-          <span className={styles.stat}>
-            <span className={styles.statLabel}>rising stage</span>
-            <span className={styles.statValue}>
-              <span
-                className={styles.swatch}
-                style={{ background: STAGE_COLORS[trend.stage] }}
-              />
-              {STAGE_LABELS[trend.stage]} climbing{' '}
-              {trend.growthRatio.toFixed(1)}× across the call
-            </span>
-          </span>
-        )}
-        <span className={styles.stat}>
-          <span className={styles.statLabel}>outlier turns</span>
-          <span className={styles.statValue}>
-            {outlierCount > 0 ? `${outlierCount} over 1.5× median` : 'none'}
-          </span>
-        </span>
-      </div>
-
+    <section className={styles.wrap} aria-label="Turns">
       <div className={styles.columnHead} aria-hidden="true">
         <span className={styles.index}>#</span>
         <span>Turn pipeline</span>
@@ -77,7 +38,7 @@ export function CallOverview({
               <button
                 type="button"
                 className={active ? styles.rowActive : styles.row}
-                aria-current={active}
+                aria-expanded={active}
                 onClick={() => onSelect(c.index)}
               >
                 <span className={styles.index}>{c.index}</span>
@@ -100,12 +61,9 @@ export function CallOverview({
                   </span>
                 </span>
                 <span className={styles.latency}>{c.latencyMs}ms</span>
-                <span
-                  className={ratioClass(c.latencyRatio, c.isOutlier)}
-                  title={c.isOutlier ? 'Over 1.5× the call median' : undefined}
-                >
+                <span className={ratioClass(c.latencyRatio, c.isOutlier)}>
                   {c.isOutlier && <span aria-hidden="true">⚠ </span>}
-                  {c.latencyRatio.toFixed(1)}×
+                  {c.latencyRatio.toFixed(1)}× median
                 </span>
                 <span className={styles.utterance}>{turn.userText}</span>
               </button>
