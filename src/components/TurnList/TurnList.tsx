@@ -1,3 +1,4 @@
+import { useEffect, useRef } from 'react'
 import { STAGES, type Call } from '../../types/schema'
 import { turnComparison } from '../../analysis/baseline'
 import type { Finding } from '../../analysis/rules'
@@ -26,6 +27,13 @@ export function TurnList({
 }: TurnListProps) {
   const comparisons = turnComparison(call)
   const maxLatency = Math.max(...comparisons.map((c) => c.latencyMs), 1)
+  const selectedRow = useRef<HTMLLIElement>(null)
+
+  // Selection can jump from a finding pill far below the fold; scroll it into view so the response is visible.
+  useEffect(() => {
+    if (selectedIndex === null) return
+    selectedRow.current?.scrollIntoView({ behavior: 'smooth', block: 'center' })
+  }, [selectedIndex])
 
   return (
     <section className={styles.wrap} aria-label="Turns">
@@ -42,7 +50,7 @@ export function TurnList({
           const turn = call.turns[c.index]
           const active = c.index === selectedIndex
           return (
-            <li key={c.index}>
+            <li key={c.index} ref={active ? selectedRow : null}>
               <button
                 type="button"
                 className={active ? styles.rowActive : styles.row}
