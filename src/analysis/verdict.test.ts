@@ -39,7 +39,9 @@ describe('verdictFor', () => {
   })
 
   it('counts the findings behind the headline, excluding it', () => {
-    expect(verdictFor([finding(), finding(), finding()], 850).otherFindingCount).toBe(2)
+    expect(
+      verdictFor([finding(), finding(), finding()], 850).otherFindingCount,
+    ).toBe(2)
     expect(verdictFor([finding()], 850).otherFindingCount).toBe(0)
   })
 

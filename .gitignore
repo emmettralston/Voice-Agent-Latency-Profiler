@@ -28,3 +28,6 @@ docs/
 CLAUDE.md
 .claude/
 
+
+# Subagent-driven development scratch (briefs, reports, ledger)
+.superpowers/

@@ -18,7 +18,10 @@ export function Report({ result, onUnload }: ReportProps) {
   const [turnIndex, setTurnIndex] = useState<number | null>(null)
   const median = useMemo(() => latencyMedian(call), [call])
   const findings = useMemo(() => runRules(call), [call])
-  const verdict = useMemo(() => verdictFor(findings, median), [findings, median])
+  const verdict = useMemo(
+    () => verdictFor(findings, median),
+    [findings, median],
+  )
 
   return (
     <main className={styles.page}>

@@ -78,15 +78,17 @@ export function TurnPanel({
                   {point.p50Ms}ms p50 · {point.source}
                 </span>
               ) : (
-                <span className={styles.referenceEmpty}>no citable number yet</span>
+                <span className={styles.referenceEmpty}>
+                  no citable number yet
+                </span>
               )}
             </dd>
           )
         })}
       </dl>
       <p className={styles.referencesInvite}>
-        Reference numbers are only added with a public, citable source.
-        Have one? PRs welcome.
+        Reference numbers are only added with a public, citable source. Have
+        one? PRs welcome.
       </p>
     </section>
   )
