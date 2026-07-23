@@ -48,6 +48,22 @@
   cursor: default;
 }
 
+.warnings {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.warning {
+  padding: 2px 0 2px 8px;
+  border-left: 2px solid #fbbf24;
+  font: 11px var(--mono);
+  color: var(--muted);
+}
+
 .references {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));

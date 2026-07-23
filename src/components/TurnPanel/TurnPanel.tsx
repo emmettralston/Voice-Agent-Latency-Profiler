@@ -1,6 +1,7 @@
 import { STAGES, type Turn } from '../../types/schema'
 import type { TurnComparison } from '../../analysis/baseline'
 import type { Finding } from '../../analysis/rules'
+import type { CallWarning } from '../../ingest/geometry'
 import { Waterfall } from '../Waterfall/Waterfall'
 import { TurnDetail } from '../TurnDetail/TurnDetail'
 import { referencePoints } from '../../reference'
@@ -11,6 +12,7 @@ interface TurnPanelProps {
   turn: Turn
   comparison: TurnComparison
   findings: Finding[]
+  warnings: CallWarning[]
   budgetMs: number
   hasPrev: boolean
   hasNext: boolean
@@ -22,6 +24,7 @@ export function TurnPanel({
   turn,
   comparison,
   findings,
+  warnings,
   budgetMs,
   hasPrev,
   hasNext,
@@ -50,6 +53,16 @@ export function TurnPanel({
         references={referencePoints}
         replayKey={`${turn.index}`}
       />
+
+      {warnings.length > 0 && (
+        <ul className={styles.warnings}>
+          {warnings.map((w) => (
+            <li key={`${w.kind}-${w.message}`} className={styles.warning}>
+              {w.message}
+            </li>
+          ))}
+        </ul>
+      )}
 
       <dl className={styles.references}>
         <dt className={styles.referencesLabel}>Reference</dt>

@@ -14,7 +14,7 @@ interface ReportProps {
 }
 
 export function Report({ result, onUnload }: ReportProps) {
-  const { call } = result
+  const { call, warnings } = result
   const [turnIndex, setTurnIndex] = useState<number | null>(null)
   const median = useMemo(() => latencyMedian(call), [call])
   const findings = useMemo(() => runRules(call), [call])
@@ -60,6 +60,7 @@ export function Report({ result, onUnload }: ReportProps) {
       <TurnList
         call={call}
         findings={findings}
+        warnings={warnings}
         selectedIndex={turnIndex}
         onSelect={setTurnIndex}
       />

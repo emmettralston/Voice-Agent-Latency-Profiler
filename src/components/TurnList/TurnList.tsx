@@ -2,6 +2,7 @@ import { useEffect, useRef } from 'react'
 import { STAGES, type Call } from '../../types/schema'
 import { turnComparison } from '../../analysis/baseline'
 import type { Finding } from '../../analysis/rules'
+import type { CallWarning } from '../../ingest/geometry'
 import { STAGE_COLORS, STAGE_LABELS } from '../Waterfall/stageStyle'
 import { TurnPanel } from '../TurnPanel/TurnPanel'
 import styles from './TurnList.module.css'
@@ -9,6 +10,7 @@ import styles from './TurnList.module.css'
 interface TurnListProps {
   call: Call
   findings: Finding[]
+  warnings: CallWarning[]
   selectedIndex: number | null
   onSelect: (index: number | null) => void
 }
@@ -22,6 +24,7 @@ function ratioClass(ratio: number, isOutlier: boolean): string {
 export function TurnList({
   call,
   findings,
+  warnings,
   selectedIndex,
   onSelect,
 }: TurnListProps) {
@@ -88,6 +91,7 @@ export function TurnList({
                   turn={turn}
                   comparison={c}
                   findings={findings}
+                  warnings={warnings.filter((w) => w.turnIndex === c.index)}
                   budgetMs={call.budgetMs}
                   hasPrev={c.index > 0}
                   hasNext={c.index < call.turns.length - 1}
