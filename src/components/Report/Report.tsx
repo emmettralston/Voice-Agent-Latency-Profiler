@@ -6,8 +6,6 @@ import { verdictFor } from '../../analysis/verdict'
 import { TurnList } from '../TurnList/TurnList'
 import { VerdictBanner } from '../VerdictBanner/VerdictBanner'
 import { FindingsList } from '../FindingsList/FindingsList'
-import { Waterfall } from '../Waterfall/Waterfall'
-import { referencePoints } from '../../reference'
 import styles from './Report.module.css'
 
 interface ReportProps {
@@ -61,17 +59,10 @@ export function Report({ result, onUnload }: ReportProps) {
 
       <TurnList
         call={call}
+        findings={findings}
         selectedIndex={turnIndex}
         onSelect={setTurnIndex}
       />
-      {turnIndex !== null && (
-        <Waterfall
-          turn={call.turns[turnIndex]}
-          budgetMs={call.budgetMs}
-          references={referencePoints}
-          replayKey={`${call.id}:${turnIndex}`}
-        />
-      )}
     </main>
   )
 }

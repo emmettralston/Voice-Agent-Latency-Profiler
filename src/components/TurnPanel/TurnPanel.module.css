@@ -1,0 +1,97 @@
+.panel {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin: 8px 4px 12px 18px;
+  padding: 16px 18px;
+  border: 1px solid var(--hairline);
+  border-radius: 10px;
+  background: var(--panel);
+  box-shadow: inset 2px 0 0 var(--text);
+}
+
+.head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.heading {
+  font: 600 13px var(--sans);
+  color: var(--text);
+}
+
+.nav {
+  display: flex;
+  gap: 8px;
+}
+
+.nav button {
+  padding: 5px 10px;
+  border: 1px solid var(--hairline);
+  border-radius: 6px;
+  background: transparent;
+  color: var(--muted);
+  font: 12px var(--sans);
+  cursor: pointer;
+}
+
+.nav button:hover:not(:disabled) {
+  color: var(--text);
+  border-color: var(--text);
+}
+
+.nav button:disabled {
+  color: var(--muted);
+  opacity: 0.4;
+  cursor: default;
+}
+
+.references {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 4px 20px;
+  margin: 0;
+  padding-top: 6px;
+  border-top: 1px solid var(--hairline);
+}
+
+.referencesLabel {
+  grid-column: 1 / -1;
+  margin: 0 0 2px;
+  font: 11px var(--mono);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+.reference {
+  display: flex;
+  align-items: baseline;
+  gap: 6px;
+  margin: 0;
+  font: 11px var(--mono);
+  color: var(--muted);
+}
+
+.referenceStage {
+  min-width: 30px;
+  color: var(--muted);
+}
+
+.referenceValue {
+  color: var(--text);
+}
+
+.referenceEmpty {
+  color: var(--muted);
+  opacity: 0.65;
+  font-style: italic;
+}
+
+.referencesInvite {
+  margin: 0;
+  font-size: 11px;
+  color: var(--muted);
+}

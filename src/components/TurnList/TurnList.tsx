@@ -1,12 +1,15 @@
 import { STAGES, type Call } from '../../types/schema'
 import { turnComparison } from '../../analysis/baseline'
+import type { Finding } from '../../analysis/rules'
 import { STAGE_COLORS, STAGE_LABELS } from '../Waterfall/stageStyle'
+import { TurnPanel } from '../TurnPanel/TurnPanel'
 import styles from './TurnList.module.css'
 
 interface TurnListProps {
   call: Call
+  findings: Finding[]
   selectedIndex: number | null
-  onSelect: (index: number) => void
+  onSelect: (index: number | null) => void
 }
 
 function ratioClass(ratio: number, isOutlier: boolean): string {
@@ -15,7 +18,12 @@ function ratioClass(ratio: number, isOutlier: boolean): string {
   return styles.badge
 }
 
-export function TurnList({ call, selectedIndex, onSelect }: TurnListProps) {
+export function TurnList({
+  call,
+  findings,
+  selectedIndex,
+  onSelect,
+}: TurnListProps) {
   const comparisons = turnComparison(call)
   const maxLatency = Math.max(...comparisons.map((c) => c.latencyMs), 1)
 
@@ -39,7 +47,7 @@ export function TurnList({ call, selectedIndex, onSelect }: TurnListProps) {
                 type="button"
                 className={active ? styles.rowActive : styles.row}
                 aria-expanded={active}
-                onClick={() => onSelect(c.index)}
+                onClick={() => onSelect(active ? null : c.index)}
               >
                 <span className={styles.index}>{c.index}</span>
                 <span className={styles.track}>
@@ -67,6 +75,18 @@ export function TurnList({ call, selectedIndex, onSelect }: TurnListProps) {
                 </span>
                 <span className={styles.utterance}>{turn.userText}</span>
               </button>
+              {active && (
+                <TurnPanel
+                  turn={turn}
+                  comparison={c}
+                  findings={findings}
+                  budgetMs={call.budgetMs}
+                  hasPrev={c.index > 0}
+                  hasNext={c.index < call.turns.length - 1}
+                  onPrev={() => onSelect(c.index - 1)}
+                  onNext={() => onSelect(c.index + 1)}
+                />
+              )}
             </li>
           )
         })}

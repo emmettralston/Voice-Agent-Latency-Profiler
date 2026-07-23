@@ -1,9 +1,5 @@
 .wrap {
-  margin-top: 12px;
-  padding: 12px 16px;
-  border: 1px solid var(--hairline);
-  border-radius: 8px;
-  background: var(--panel);
+  margin: 0;
 }
 
 .line {
