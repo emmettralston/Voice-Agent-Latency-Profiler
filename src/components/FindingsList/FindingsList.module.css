@@ -2,6 +2,41 @@
   margin-bottom: 24px;
 }
 
+.clean {
+  display: flex;
+  gap: 14px;
+  align-items: flex-start;
+  margin-bottom: 24px;
+  padding: 16px 20px;
+  border: 1px solid var(--hairline);
+  border-left-width: 3px;
+  border-left-color: #34d399;
+  border-radius: 8px;
+  background: var(--panel);
+}
+
+.cleanDot {
+  margin-top: 6px;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: #34d399;
+  flex: none;
+}
+
+.cleanTitle {
+  margin: 0;
+  font: 600 15px/1.3 var(--sans);
+  color: var(--text);
+}
+
+.cleanBody {
+  margin: 4px 0 0;
+  font-size: 13px;
+  line-height: 1.5;
+  color: var(--muted);
+}
+
 .heading {
   margin: 0 0 10px;
   font: 600 12px/1.3 var(--sans);

@@ -2,9 +2,7 @@ import { useMemo, useState } from 'react'
 import type { ParseResult } from '../../ingest/parseCall'
 import { latencyMedian } from '../../analysis/baseline'
 import { runRules } from '../../analysis/rules'
-import { verdictFor } from '../../analysis/verdict'
 import { TurnList } from '../TurnList/TurnList'
-import { VerdictBanner } from '../VerdictBanner/VerdictBanner'
 import { FindingsList } from '../FindingsList/FindingsList'
 import styles from './Report.module.css'
 
@@ -18,10 +16,6 @@ export function Report({ result, onUnload }: ReportProps) {
   const [turnIndex, setTurnIndex] = useState<number | null>(null)
   const median = useMemo(() => latencyMedian(call), [call])
   const findings = useMemo(() => runRules(call), [call])
-  const verdict = useMemo(
-    () => verdictFor(findings, median),
-    [findings, median],
-  )
 
   return (
     <main className={styles.page}>
@@ -57,8 +51,11 @@ export function Report({ result, onUnload }: ReportProps) {
         </button>
       </header>
 
-      <VerdictBanner verdict={verdict} />
-      <FindingsList findings={findings} onSelectTurn={setTurnIndex} />
+      <FindingsList
+        findings={findings}
+        medianLatencyMs={median}
+        onSelectTurn={setTurnIndex}
+      />
 
       <TurnList
         call={call}
